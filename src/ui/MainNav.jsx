@@ -83,12 +83,7 @@ function MainNav() {
             <span>Users</span>
           </StyledNavLink>
         </li>
-        <li>
-          <StyledNavLink to="/cabins">
-            <HiOutlineHomeModern />
-            <span>Cabins</span>
-          </StyledNavLink>
-        </li>
+
         <li>
           <StyledNavLink to="/settings">
             <HiOutlineCog6Tooth />
