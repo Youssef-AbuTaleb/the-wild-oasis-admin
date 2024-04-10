@@ -11,7 +11,8 @@ export async function getCabins() {
 }
 
 export async function createEditCabin(newCabin, id) {
-  const hasImagePath = newCabin.image.startsstartsWith(supabaseUrl);
+  console.log(newCabin);
+  const hasImagePath = newCabin.image?.startsstartsWith?.(supabaseUrl);
 
   // 1- preparing image data
   //   1.a- creating random image name
@@ -21,22 +22,28 @@ export async function createEditCabin(newCabin, id) {
     ""
   );
 
+  console.log(hasImagePath);
+  console.log(imageName);
+
   //   1.b- this path extracted from image uploaded manually to supabase
   //      - create an image path similar to the extracted path.
   // https://uxiichzxundyllfsftuw.supabase.co/storage/v1/object/public/cabin-images/cabin-001.jpg?t=2024-03-31T04%3A41%3A05.452Z
-  const imagePath = `${supabaseUrl}/storage/v1/object/public/cabin-images/${imageName}`;
+  const imagePath = hasImagePath
+    ? newCabin.image
+    : `${supabaseUrl}/storage/v1/object/public/cabin-images/${imageName}`;
 
   let query = supabase.from("cabins");
 
   // 2- create/edit cabin and save all data in database
   // A) Create
   if (!id) {
-    query.insert([{ ...newCabin, image: imagePath }]);
+    query = query.insert([{ ...newCabin, image: imagePath }]);
   }
 
   // B) Edit
   if (id) {
-    query.update({ ...newCabin, image: imagePath }).eq("id", id);
+    console.log(newCabin);
+    query = query.update({ ...newCabin, image: imagePath }).eq("id", id);
   }
   const { data, error } = await query.select().single();
   if (error) {
