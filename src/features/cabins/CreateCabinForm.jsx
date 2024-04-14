@@ -52,9 +52,13 @@ function CreateCabinForm({ cabinToEdit = {} }) {
   function onSubmit(data) {
     const image = typeof data.image === "string" ? data.image : data.image[0];
 
-    if (isEditSession)
+    if (isEditSession) {
+      console.log(data);
+      console.log(image);
       editCabin({ newCabinData: { ...data, image }, id: editId });
-    else createCabin({ ...data, image: image });
+    } else {
+      createCabin({ ...data, image: image });
+    }
   }
 
   function onError() {
@@ -112,8 +116,8 @@ function CreateCabinForm({ cabinToEdit = {} }) {
       </FormRow>
 
       <FormRow
-        error={errors?.description?.message}
         label="Description for website"
+        error={errors?.description?.message}
       >
         <Textarea
           type="number"
